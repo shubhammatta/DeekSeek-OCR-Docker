@@ -27,10 +27,19 @@ from tqdm import tqdm
 sys.path.insert(0, '/app/DeepSeek-OCR-vllm')
 
 # Set environment variables for vLLM compatibility
-if torch.version.cuda == '11.8':
-    os.environ["TRITON_PTXAS_PATH"] = "/usr/local/cuda-11.8/bin/ptxas"
-os.environ['VLLM_USE_V1'] = '0'
-os.environ["CUDA_VISIBLE_DEVICES"] = '0'
+# Auto-detect GPU availability and configure accordingly
+if torch.cuda.is_available():
+    if torch.version.cuda == '11.8':
+        os.environ["TRITON_PTXAS_PATH"] = "/usr/local/cuda-11.8/bin/ptxas"
+    os.environ['VLLM_USE_V1'] = '0'
+    # Use GPU 0 if available, otherwise let vLLM handle device selection
+    if "CUDA_VISIBLE_DEVICES" not in os.environ:
+        os.environ["CUDA_VISIBLE_DEVICES"] = '0'
+else:
+    # CPU-only mode
+    os.environ["CUDA_VISIBLE_DEVICES"] = ''
+    os.environ['VLLM_USE_V1'] = '0'
+    print("CUDA not available, running in CPU mode")
 
 # Import DeepSeek-OCR components
 from config import INPUT_PATH, OUTPUT_PATH, PROMPT, CROP_MODE, MAX_CONCURRENCY, NUM_WORKERS
@@ -82,7 +91,17 @@ def initialize_model():
     if llm is None:
         print("Initializing DeepSeek-OCR model...")
         
-        # Initialize vLLM engine
+        # Configure vLLM based on GPU availability
+        if torch.cuda.is_available():
+            print(f"GPU detected: {torch.cuda.get_device_name(0)}")
+            gpu_memory_utilization = float(os.environ.get('GPU_MEMORY_UTILIZATION', '0.9'))
+            device_config = "cuda"
+        else:
+            print("No GPU detected, using CPU mode")
+            gpu_memory_utilization = 0.0  # No GPU memory for CPU mode
+            device_config = "cpu"
+        
+        # Initialize vLLM engine with appropriate configuration
         llm = LLM(
             model=MODEL_PATH,
             hf_overrides={"architectures": ["DeepseekOCRForCausalLM"]},
@@ -93,8 +112,9 @@ def initialize_model():
             swap_space=0,
             max_num_seqs=MAX_CONCURRENCY,
             tensor_parallel_size=1,
-            gpu_memory_utilization=0.9,
-            disable_mm_preprocessor_cache=True
+            gpu_memory_utilization=gpu_memory_utilization,
+            disable_mm_preprocessor_cache=True,
+            device=device_config
         )
         
         # Set up sampling parameters

@@ -25,10 +25,17 @@ python pdf_to_markdown_processor.py
 ## 📋 Prerequisites
 
 ### Hardware Requirements
-- **NVIDIA GPU** with CUDA 11.8+ support
-- **GPU Memory**: Minimum 12GB VRAM (Model takes ~9GB)
-- **System RAM**: Minimum 32GB (recommended: 64GB+)
+- **NVIDIA GPU** with CUDA 11.8+ support (optional - CPU mode available)
+- **GPU Memory**: Minimum 12GB VRAM (Model takes ~9GB) - for GPU mode
+- **System RAM**: Minimum 32GB (recommended: 64GB+) - for both GPU and CPU modes
 - **Storage**: 50GB+ free space for model and containers
+
+### CPU/GPU Flexibility
+This Docker setup now **automatically detects** and uses:
+- **NVIDIA GPU** if available and properly configured (faster processing)
+- **CPU** as fallback if no GPU is available (slower but functional)
+
+See [CPU_GPU_SETUP.md](CPU_GPU_SETUP.md) for detailed configuration and troubleshooting.
 
 ### Software Requirements
 - **Python 3.8+** (for local processing)
