@@ -1,6 +1,7 @@
 # DeepSeek-OCR Model and Transformer Ecosystem
 torch>=2.0.0
-transformers>=4.40.2
+transformers==4.38.2
+safetensors>=0.4.2
 accelerate>=0.28.0
 pillow>=10.3.0 # For image handling (PIL)
 sentencepiece>=0.1.99 # Often a dependency for DeepSeek-OCR tokenizer
