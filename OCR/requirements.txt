@@ -1,6 +1,10 @@
 # DeepSeek-OCR Model and Transformer Ecosystem
-torch>=2.0.0
-transformers==4.38.2
+torch==2.6.0
+transformers==4.46.3
+tokenizers==0.20.3
+einops
+addict 
+easydict
 safetensors>=0.4.2
 accelerate>=0.28.0
 pillow>=10.3.0 # For image handling (PIL)
@@ -21,9 +25,5 @@ uvicorn[standard]>=0.30.1 # ASGI server for running FastAPI
 python-multipart>=0.0.9   # Required for handling file uploads (multipart/form-data)
 
 
-addict>=2.4.0
 matplotlib>=3.8.4
 torchvision>=0.17.2 # Must match your Torch version compatibility
-
-einops>=0.7.0 # Newly required package for tensor manipulation
-easydict>=1.13 # Newly required package
