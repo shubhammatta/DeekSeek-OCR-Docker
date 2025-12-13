@@ -75,7 +75,7 @@ def ocr_from_image_path(
             )
             print(f"Got result {results}")
             # The output text is written to a file (usually .md or .txt) and sometimes in the returned dict
-            result_text = results.get('text', None)
+            result_text = results
             
             # Fallback: Read the generated output file if the text is not in the results dict
             if not result_text:
