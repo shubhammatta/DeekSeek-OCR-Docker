@@ -6,6 +6,7 @@ import fitz  # PyMuPDF
 from PIL import Image
 from transformers import AutoModel, AutoTokenizer
 from typing import List, Union
+import traceback
 
 # --- Configuration ---
 MODEL_NAME = './DeepSeek-OCR-Local/DeepSeek-OCR'
@@ -89,6 +90,7 @@ def ocr_from_image_path(
             return result_text if result_text else "OCR processing completed, but no text was extracted/found in output files."
 
         except Exception as e:
+            traceback.print_exc()
             return f"OCR Inference Error for {image_path}: {e}"
 
 # --- PDF to Text Wrapper ---
