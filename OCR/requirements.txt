@@ -25,3 +25,4 @@ matplotlib>=3.8.4
 torchvision>=0.17.2 # Must match your Torch version compatibility
 
 einops>=0.7.0 # Newly required package for tensor manipulation
+easydict>=1.13 # Newly required package
