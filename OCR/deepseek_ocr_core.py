@@ -144,3 +144,14 @@ if __name__ == '__main__':
     tokenizer, model = initialize_model()
     if model:
         print("Core script ready for local testing. Place test files (e.g., test.jpg, test.pdf) in this directory.")
+        
+        # Test OCR on 1.png
+        image_path = "1.png"
+        if os.path.exists(image_path):
+            print(f"\nRunning OCR on {image_path}...")
+            result = ocr_from_image_path(image_path, tokenizer, model)
+            print(f"\n--- OCR Result for {image_path} ---")
+            print(result)
+            print("--- End of Result ---")
+        else:
+            print(f"\n{image_path} not found in current directory.")
