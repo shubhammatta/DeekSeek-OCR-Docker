@@ -8,7 +8,7 @@ from transformers import AutoModel, AutoTokenizer
 from typing import List, Union
 
 # --- Configuration ---
-MODEL_NAME = 'deepseek-ai/DeepSeek-OCR'
+MODEL_NAME = './DeepSeek-OCR-Local'
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # T4 GPU (Compute 7.5) requires float16 precision for VRAM efficiency.
