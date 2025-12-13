@@ -73,7 +73,7 @@ def ocr_from_image_path(
                 image_size=640, 
                 crop_mode=True
             )
-            
+            print(f"Got result {results}")
             # The output text is written to a file (usually .md or .txt) and sometimes in the returned dict
             result_text = results.get('text', None)
             
